@@ -49,7 +49,12 @@ class DriftSample extends StatelessWidget {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) => TextButton(
                     child: Text(snapshot.data![index].content),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      await database.updateTodo(
+                        snapshot.data![index],
+                        'updated',
+                      );
+                    },
                   ),
                 );
               },
