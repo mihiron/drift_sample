@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 
 void main() {
   final database = MyDatabase();
-  runApp(const MyApp());
+  runApp(MyApp(database: database));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
+    required this.database,
   }) : super(key: key);
+
+  final MyDatabase database;
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: DriftSample(),
+    return MaterialApp(
+      home: DriftSample(database: database),
     );
   }
 }
@@ -22,7 +25,10 @@ class MyApp extends StatelessWidget {
 class DriftSample extends StatelessWidget {
   const DriftSample({
     Key? key,
+    required this.database,
   }) : super(key: key);
+
+  final MyDatabase database;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,23 @@ class DriftSample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(child: Container()),
+            Expanded(
+                child: StreamBuilder(
+              stream: database.watchEntries(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) => TextButton(
+                    child: Text(snapshot.data![index].content),
+                    onPressed: () {},
+                  ),
+                );
+              },
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
