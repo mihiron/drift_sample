@@ -36,6 +36,10 @@ class MyDatabase extends _$MyDatabase {
       ),
     );
   }
+
+  Future<void> deleteTodo(Todo todo) {
+    return (delete(todos)..where((tbl) => tbl.id.equals(todo.id))).go();
+  }
 }
 
 LazyDatabase _openConnection() {

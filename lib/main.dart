@@ -78,7 +78,12 @@ class DriftSample extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
                       child: const Text('remove'),
-                      onPressed: () async {},
+                      onPressed: () async {
+                        final list = await database.allTodoEntries;
+                        if (list.isNotEmpty) {
+                          await database.deleteTodo(list[list.length - 1]);
+                        }
+                      },
                     ),
                   ),
                 ),
