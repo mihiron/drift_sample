@@ -24,6 +24,10 @@ class MyDatabase extends _$MyDatabase {
   }
 
   Future<List<Todo>> get allTodoEntries => select(todos).get();
+
+  Future<int> addTodo(String content) {
+    return into(todos).insert(TodosCompanion(content: Value(content)));
+  }
 }
 
 LazyDatabase _openConnection() {

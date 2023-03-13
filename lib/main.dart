@@ -49,7 +49,7 @@ class DriftSample extends StatelessWidget {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) => TextButton(
                     child: Text(snapshot.data![index].content),
-                    onPressed: () {},
+                    onPressed: () async {},
                   ),
                 );
               },
@@ -62,7 +62,9 @@ class DriftSample extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
                       child: const Text('Add'),
-                      onPressed: () async {},
+                      onPressed: () async {
+                        await database.addTodo('test');
+                      },
                     ),
                   ),
                 ),
